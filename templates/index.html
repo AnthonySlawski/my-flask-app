@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - Alpaca Assessment Clone</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400,600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="https://www.alpaca-assessment.com/" class="logo">
+                <img src="https://www.alpaca-assessment.com/hs-fs/hubfs/alpaca_website_logo_homepage-1.png?width=3136&height=4258&name=alpaca_website_logo_homepage-1.png" alt="Alpaca Logo" class="logo-image" style="height: 50px;">
+            </a>
+            <span class="alpaca-text">ALPACA</span>
+            <ul class="nav-links">
+                <li><a href="https://www.alpaca-assessment.com/" target="_blank">Home</a></li>
+                <li><a href="https://www.alpaca-assessment.com/about-us" target="_blank">About Us</a></li>
+                <li><a href="https://26983596.hs-sites-eu1.com/faqs?__hstc=115865305.51ecb17916fe782745683a9d3ce90c82.1718311142824.1719928319519.1722861086113.6&__hssc=115865305.5.1722861086113&__hsfp=4143607224" target="_blank">FAQ</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="content">
+        <h1>Welcome to Alpaca Assessment!</h1>
+        <p>Explore our services and offerings with ease and elegance.</p>
+        <a class="btn" href="https://www.alpaca-assessment.com/" target="_blank">Visit Alpaca Assessment</a>
+        
+        <h2>Dyslexia Diagnosis Tool</h2>
+        <p>Enter your child's scores:</p>
+        <form method="POST">
+            <div class="diagnosis-tool">
+                {% for category in categories %}
+                <div class="score-box">
+                    <label for="{{ category }}">{{ category }}</label>
+                    <input type="number" id="{{ category }}" name="{{ category }}" value="{{ scores.get(category, '') }}" min="0" max="100" class="{% if errors.get(category) %}error{% endif %}">
+                    {% if errors.get(category) %}
+                    <div class="error-message">{{ errors[category] }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn">Submit and Calculate</button>
+        </form>
+
+        {% if prediction_label %}
+        <h1>Calculation Results</h1>
+        <p><strong>Dyslexia Diagnosis:</strong> {{ prediction_label }}</p>
+        <p><strong>Overall Percentile:</strong> {{ overall_percentile }</p>
+        <h2>Best and Worst Attributes</h2>
+        <p><strong>Best Attribute:</strong> {{ best_attribute }} ({{ best_attribute_percentile }}%) - {{ best_desc }}</p>
+        <p><strong>Worst Attribute:</strong> {{ worst_attribute }} ({{ worst_attribute_percentile }}%) - {{ worst_desc }}</p>
+        
+        <!-- Centering the Plotly plot -->
+        <div class="plotly-plot-container">
+            {{ gauge_html|safe }}
+        </div>
+
+        <!-- Interventions Button -->
+        <div style="text-align: center; margin-top: 20px;">
+            <a class="btn" href="https://26983596.hs-sites-eu1.com/join-us?__hstc=115865305.51ecb17916fe782745683a9d3ce90c82.1718311142824.1722868104107.1722876378018.8&__hssc=115865305.1.1722876378018&__hsfp=4143607224" target="_blank">Interventions</a>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
