@@ -1,0 +1,21 @@
+Category,Subtest/Assessment,Child 1 Percentile,Child 2 Percentile,Child 3 Percentile,Child 4 Percentile,Child 5 Percentile,Child 6 Percentile,Child 7 Percentile,Child 8 Percentile,Child 9 Percentile
+WISC - Verbal Comprehension (VCI),Similarities,12,9,16,25,30,35,50,55,60
+WISC - Verbal Comprehension (VCI),Vocabulary,7,5,12,28,32,34,48,53,58
+WISC - Verbal Comprehension (VCI),Comprehension,16,13,9,26,29,33,52,57,62
+WISC - Visual-Spatial (VSI),Block Design,70,84,70,65,70,75,80,85,90
+WISC - Visual-Spatial (VSI),Visual Puzzles,79,75,63,67,72,74,82,87,92
+WISC - Fluid Reasoning (FRI),Matrix Reasoning,32,30,37,50,45,55,65,70,75
+WISC - Fluid Reasoning (FRI),Figure Weights,21,25,25,52,47,57,62,68,73
+WISC - Working Memory (WMI),Digit Span,4,2,5,22,27,32,45,50,55
+WISC - Working Memory (WMI),Picture Span,5,3,7,24,29,34,47,52,57
+WISC - Processing Speed (PSI),Coding,2,1,2,20,25,30,42,47,52
+WISC - Processing Speed (PSI),Symbol Search,2,2,3,22,26,31,44,49,54
+Reading Skills,Phonological Processing,4,3,5,18,23,28,40,45,50
+Reading Skills,Word Decoding,5,2,4,19,24,29,41,46,51
+Reading Skills,Reading Fluency,7,5,6,21,26,31,43,48,53
+Reading Skills,Reading Comprehension,9,7,10,20,25,30,42,47,52
+Language Skills,Expressive Vocabulary,8,6,11,23,28,33,44,49,54
+Language Skills,Receptive Vocabulary,10,9,13,24,29,34,46,51,56
+Observations,Teacher Reports,10,8,12,21,26,31,40,45,50
+Observations,Behavioral Observations,15,12,14,22,27,32,41,46,51
+Overall Dyslexia Severity,,Severe,Severe,Severe,Mild,Mild,Mild,No Dyslexia,No Dyslexia,No Dyslexia
