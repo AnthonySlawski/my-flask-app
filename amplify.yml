@@ -5,23 +5,23 @@ applications:
       phases:
         preBuild:
           commands:
-            - 'pip install -r requirements.txt'
+            - 'pip install -r requirements.txt'  # Install Python dependencies
         build:
           commands:
-            - 'python app.py'
+            - 'python app.py'  # Run the Flask application
     frontend:
       phases:
         preBuild:
           commands:
-            - 'pip install -r requirements.txt'
+            - 'echo No frontend preBuild commands'
         build:
           commands:
-            - 'echo Build started'
+            - 'echo No frontend build commands'
       artifacts:
         baseDirectory: /
         files:
           - '**/*'
       cache:
         paths:
-          - 'node_modules/**'
-          - 'vendor/**'
+          - 'node_modules/**'  # Cache node_modules for any frontend dependencies
+          - 'venv/**'  # Cache virtual environment dependencies if used
