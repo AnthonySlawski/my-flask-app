@@ -5,9 +5,115 @@ import joblib
 import plotly.graph_objects as go
 import plotly.io as pio
 import os
+import plotly.graph_objects as go
+import plotly.io as pio
 
 # Create a Flask app
 app = Flask(__name__)
+
+def get_color(value):
+    """Determine the color of the gauge bar based on the value."""
+    if value < 50:
+        return f"rgb({255}, {int((value / 50) * 255)}, 0)"
+    else:
+        return f"rgb({int((1 - (value - 50) / 50) * 255)}, 255, 0)"
+
+def create_percentile_gauge(title, value, domain):
+    """Create a gauge chart to visualize percentiles."""
+    gradient_steps = []
+    for i in range(100):
+        if i < 50:
+            color = f"rgba({255}, {int((i / 50) * 255)}, 0, 0.3)"  # Red to Yellow gradient with opacity
+        else:
+            color = f"rgba({int((1 - (i - 50) / 50) * 255)}, 255, 0, 0.3)"  # Yellow to Green gradient with opacity
+        gradient_steps.append({'range': [i, i + 1], 'color': color})
+
+    return go.Indicator(
+        mode="gauge+number",
+        value=value,
+        title={'text': title},
+        gauge={
+            'axis': {'range': [0, 100]},
+            'bar': {'color': get_color(value), 'thickness': 0.3},  # Adjust bar thickness
+            'bgcolor': 'white',  # White background for clarity
+            'steps': gradient_steps,
+        },
+        domain=domain
+    )
+
+def plot_student_performance(overall_percentile, best_attribute, best_percentile, worst_attribute, worst_percentile, best_desc, worst_desc, prediction_label):
+    """Plot the student performance summary using Plotly."""
+    fig = go.Figure()
+
+    # Overall Percentile Gauge
+    fig.add_trace(create_percentile_gauge("Overall Percentile", overall_percentile, {'x': [0, 0.4], 'y': [0.5, 1]}))
+
+    # Best Attribute Gauge
+    fig.add_trace(create_percentile_gauge(f"Best Attribute: {best_attribute}", best_percentile, {'x': [0.6, 1], 'y': [0.5, 1]}))
+
+    # Worst Attribute Gauge
+    fig.add_trace(create_percentile_gauge(f"Worst Attribute: {worst_attribute}", worst_percentile, {'x': [0.3, 0.7], 'y': [0, 0.4]}))
+
+    fig.add_annotation(
+        x=1.03, y=0.6,
+        text=best_desc,
+        showarrow=False,
+        font=dict(size=12),
+        align="center"
+    )
+
+    fig.add_annotation(
+        x=0.5, y=0.03,
+        text=worst_desc,
+        showarrow=False,
+        font=dict(size=12),
+        align="center"
+    )
+
+    fig.update_layout(
+        title='Student Performance Summary',
+        autosize=False,
+        width=1000,
+        height=800,
+        margin=dict(l=50, r=50, b=50, t=50),
+        paper_bgcolor='#5dbdd6',
+        plot_bgcolor='#5dbdd6',
+    )
+    fig.add_annotation(
+        x=0.001, y=1.01,
+        text=f"<b>Dyslexia Diagnosis:</b> {prediction_label}",
+        showarrow=False,
+        font=dict(size=14, color="black"),
+        align="center",
+        xref="paper",
+        yref="paper",
+        bordercolor="black",
+        borderwidth=1,
+        borderpad=10,
+        bgcolor="lightyellow",
+        opacity=0.8
+    )
+    
+    # Render the plot to HTML
+    return pio.to_html(fig, full_html=False)
+
+def predict_student_class(pipeline, student_data, labels):
+    """Predicts the class label for a given student data using the trained model pipeline."""
+    prediction = pipeline.predict(student_data)
+    return labels[prediction[0]]
+def calculate_overall_percentile(data_point):
+    """Calculate the overall percentile of a data point."""
+    return np.mean(data_point)
+
+def identify_best_worst_attributes(data_point, attribute_names):
+    """Identify the best and worst attributes for a given data point."""
+    best_index = np.argmax(data_point)
+    worst_index = np.argmin(data_point)
+    return attribute_names[best_index], attribute_names[worst_index], best_index, worst_index
+
+def get_attribute_description(attribute, descriptions, best=True):
+    """Get the description of an attribute, either best or worst."""
+    return descriptions[attribute]['positive'] if best else descriptions[attribute]['negative']
 
 # Define categories for the diagnosis tool
 categories = [
