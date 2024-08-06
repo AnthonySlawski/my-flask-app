@@ -1,0 +1,27 @@
+version: 1
+applications:
+  - appRoot: /
+    backend:
+      phases:
+        preBuild:
+          commands:
+            - 'pip install -r requirements.txt'
+        build:
+          commands:
+            - 'python app.py'
+    frontend:
+      phases:
+        preBuild:
+          commands:
+            - 'pip install -r requirements.txt'
+        build:
+          commands:
+            - 'echo Build started'
+      artifacts:
+        baseDirectory: /
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - 'node_modules/**'
+          - 'vendor/**'
